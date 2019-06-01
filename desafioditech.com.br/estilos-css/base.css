@@ -1,0 +1,142 @@
+/*GERAL*/
+* {
+	margin: 0px;
+	padding: 0px;
+	color: #3e5c81;
+	font-family: arial;
+}
+a:link {
+	text-decoration: none;
+}
+#topo {
+	width: 100%;
+	height: 80px;
+	border-bottom: solid 1px;
+	box-shadow: 1px 5px 10px 1px;
+	background-color: #FFF;
+	display: inline-flex;
+    position: fixed;
+    top: 0px;
+}
+#logo-site {
+	width: 20%;
+	min-width: 275px;
+}
+#logo-site img {
+	height: 75px;
+}
+#titulo-site {
+	width: 60%;
+	min-width: 520px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 75px;
+	font-size: 180%;
+}
+#conteudo {
+	width: 100%;
+	margin-top: 120px;
+	text-align: center;
+	padding-bottom: 50px;
+}
+.titulo-pagina {
+	font-size: 125%;
+	font-weight: bold;
+	padding-bottom: 20px;
+}
+#rodape {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	position: fixed;
+	bottom: 0px;
+	color: #000;
+	background-color: #C0C0C0;
+}
+/*MENUS*/
+#menu-site {
+	width: 20%;
+	text-align: right;
+	position: absolute;
+	right: 0px;
+}
+#menu {
+	height: 80px;
+}
+#menu span {
+	color: #FFF;
+	cursor: pointer;
+	display: inline-block;
+	padding: 10px 10px 10px 10px;
+	background-color: #3e5c81;
+	position: relative;
+	right: 5px;
+	top: 5px;
+}
+#menu-site nav {
+	position: absolute;
+	min-width: 90px;
+	top: 50px;
+	right: 0px;
+	display: none;
+}
+#menu-site nav div {
+	height: 35px;
+	line-height: 35px;
+	border: solid 1px #3e5c81;
+	padding: 0 20px 0 20px;
+	background-color: #FFF;
+}
+#menu-site nav div:hover {
+	color: #FFF;
+	cursor: pointer;
+	background-color: #3e5c81;
+}
+/*FORMULÁRIOS*/
+.form {
+	background-color: #ece7e7;
+    transform: translateX(-50%);
+    box-shadow: 5px 5px 10px 0px;
+    position: relative;
+    width: fit-content;
+    padding: 20px;
+    left: 50%;
+}
+.form-titulo {
+	padding-bottom: 10px;
+}
+.form input, .form select, .form textarea {
+	padding: 5px;
+    margin-top: 10px;
+}
+#form-cad-user input:not([type="submit"]) {
+	width: 250px;
+}
+#form-contato input:not([type="submit"]), #form-contato select, #form-contato textarea {
+	width: 250px;
+}
+.form select {
+	margin-left: -15px;
+}
+.form textarea {
+	height: 100px;
+}
+#form-logon .ajuda {
+	margin-top: 20px;
+    font-size: 80%;
+}
+/*MOBILE*/
+@media screen and (max-width: 875px) {
+
+	#titulo-site {
+		display: none;
+	}
+	#menu-site nav {
+		top: 80px;
+		z-index: 1;
+		width: 100%;
+		position: fixed;
+		text-align: center;
+	}
+}
