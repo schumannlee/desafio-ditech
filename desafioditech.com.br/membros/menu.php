@@ -3,9 +3,17 @@
 </div>
 <nav>
 	<a href="index.php">
-		<div>Acessar</div></a>
+		<div>Listar salas</div></a>
+<?php
+	if ($_SESSION['permissao'] == "admin") {
+?>
 	<a href="cadastro.php">
-		<div>Cadastrar</div></a>
-	<a href="contato.php">
-		<div>Contato</div></a>
+		<div>Cadastrar Sala</div></a>
+	<a href="edicao.php">
+		<div>Editar Sala</div></a>
+<?php
+	}
+?>
+	<a href="sair.php">
+		<div>Sair</div></a>
 </nav>

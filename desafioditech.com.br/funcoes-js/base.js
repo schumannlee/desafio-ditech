@@ -12,7 +12,7 @@ $(document).ready(function(){
 		$("#menu-site nav").hide();		
 	});
 
-// FORMULÁRIO DE CADASTRO
+// FORMULÁRIO DE CADASTRO PARA USUÁRIOS
 	// Cadastra usuário
 	$("#form-cad-user #cadastrar").click(function(){
 
@@ -140,4 +140,100 @@ $(document).ready(function(){
 
 		$("#resposta").html("Indisponível no momento.");
 	});
+
+// FORMULÁRIO DE CADASTRO PARA SALAS
+	// Valida entrada no campo capacidade
+	$("#form-cad-sala #capacidade").keypress(function(e){
+		
+		var valor = $(this).val();
+
+		var tecla = (window.event) ? event.keyCode : e.which;
+		
+		if((tecla > 47 && tecla < 58)) {
+			
+			$("input").css("border-color","unset")
+			$("#resposta").html("");
+			return true;
+		}
+		else {
+			$(this).css("border-color","#FF0000");
+			$("#resposta").html("Valor inválido em capacidade.");
+			return (tecla == 8 || tecla == 0) ? true : false;
+		}
+	});
+	// Cadastra sala
+	$("#form-cad-sala #cadastrar").click(function(){
+
+		// Limpa resposta do formulário
+		$("#resposta").html("");
+		$("#resposta").css("color","#FF0000");
+		$("input").css("border-color","unset");
+
+		// Captura valores do formulário
+		var tabela		= "salas";
+		var nome 		= $("#nome");
+		var capacidade 	= $("#capacidade");
+		var status 		= $("#status");
+
+		// Verifica campos não preenchidos
+		if (nome.val().trim() == "") {
+
+			nome.css("border-color","#FF0000");
+			$("#resposta").html("Informe o nome da sala.");
+		}
+		else if (capacidade.val().trim() == "") {
+
+			capacidade.css("border-color","#FF0000");
+			$("#resposta").html("Informe a capacidade da sala.");
+		}
+		else if (status.val().trim() == "") {
+
+			status.css("border-color","#FF0000");
+			$("#resposta").html("Informe o status da sala.");
+		}
+		// Submete valores do formuário
+		else {
+			$.post("../funcoes-php/cadastrar.php",
+				{
+				tabela: tabela,
+				nome: nome.val().trim(),
+				capacidade: capacidade.val().trim(),
+				status: status.val().trim()
+				},
+				function(retorno, estado){
+				
+					// Verifica e exibe retorno
+					if (retorno != "ok") {
+						
+						$("#resposta").html(retorno);
+					}
+					else {
+						$("#cadastrar").remove();
+						nome.attr("readonly",true);
+						capacidade.attr("readonly",true);
+						status.attr("readonly",true);
+						$("#resposta").css("color","#006600");
+						$("#resposta").html("Realizado com sucesso!");
+					}
+			});
+		}
+	});
+
+// FUNÇÕES
+function somenteNumeros(e) {
+    
+    var charCode = e.charCode ? e.charCode : e.keyCode;
+    // charCode 8 = backspace   
+    // charCode 9 = tab
+    
+    if (charCode != 8 && charCode != 9) {
+    
+        // charCode 48 equivale a 0   
+        // charCode 57 equivale a 9
+        if (charCode < 48 || charCode > 57) {
+    
+            return false;
+        }
+    }
+}
 });

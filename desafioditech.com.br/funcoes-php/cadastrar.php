@@ -54,6 +54,42 @@
 				echo "ok";
 			}
 		}
+	// VERIFICA TABELA ALVO
+		else if ($tabela == "salas") {
+
+			// Inicializa variáves para inserção
+			$nome 		= $_POST['nome'];
+			$capacidade = $_POST['capacidade'];
+			$status 	= $_POST['status'];
+
+			// Monta SQL da inserção
+			$sql = "
+				INSERT INTO salas(
+					nome,
+					capacidade,
+					status,
+					criado,
+					alterado
+				) VALUES(
+					'$nome', 
+					'$capacidade', 
+					'$status', 
+					NOW(), 
+					NOW()
+				)
+			";
+			// Executa consulta SQL
+			$consulta = mysqli_query($conexao, $sql);
+
+			// Verifica se houve erro na consulta
+			if (!$consulta) {
+
+				echo "Não cadastrou. Erro: $erro";
+			}
+			else {
+				echo "ok";
+			}
+		}
 		// Fecha conexão
 		mysqli_close($conexao);
 	}

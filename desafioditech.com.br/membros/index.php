@@ -29,14 +29,12 @@
 	</div>
 
 <?php
+	// Conecta banco de dados
+	require_once("../funcoes-php/conexao.php");
 
-		echo "<br><br><pre>";
-		print_r($_SESSION);
-		echo "</pre>";
+	$sql = "SELECT * FROM salas";
 
-		echo "<br><a href='sair.php'>SAIR</a>";
-
-		include "../rodape.php";
+	include "rodape.php";
 
 	}
 ?>
