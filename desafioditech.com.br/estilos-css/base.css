@@ -133,7 +133,7 @@ a:link {
 	font-size: 85%;
 	color: #FF0000;
 }
-input[type="submit"] {
+input[type="submit"], input[type="button"] {
 	padding: 10px;
 }
 
@@ -151,13 +151,20 @@ input[type="submit"] {
 }
 .acao-reserva .criar, .acao-reserva .alterar {
 	transform: translateX(-50%);
-	background-color: #d83135;
+	border: solid 1px #d83135;
+	background-color: #FFF;
 	position: relative;
+	font-weight: bold;
 	margin-top: 10px;
+	color: #3e5c81;
 	padding: 5px;
-	color: #FFF;
 	width: 80%;
 	left: 50%;
+}
+.acao-reserva .criar:hover, .acao-reserva .alterar:hover {
+	background-color: #d83135;
+	cursor: pointer;
+	color: #FFF;
 }
 table, tr, th, td {
 	border: solid 1px;
@@ -170,6 +177,24 @@ table {
 	position: relative;
 	left: 50%;
 }
+#cad-reserva {
+	display: none;
+	padding-top: 50px;
+	position: absolute;
+	z-index: 9;
+	top: 130px;
+}
+#mydivheader {
+	padding: 10px;
+	cursor: move;
+	z-index: 10;
+	background-color: #3e5c81;
+	color: #fff;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: calc(100% - 20px);
+}
 
 /*MOBILE*/
 @media screen and (max-width: 875px) {
@@ -179,9 +204,15 @@ table {
 	}
 	#menu-site nav {
 		top: 80px;
-		z-index: 1;
+		z-index: 15;
 		width: 100%;
 		position: fixed;
 		text-align: center;
+	}
+	#mydivheader {
+		display: none;
+	}
+	#cad-reserva {
+		padding-top: 30px;
 	}
 }

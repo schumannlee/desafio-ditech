@@ -112,6 +112,25 @@
 			</div>
 			
 		</div>
+
+		<div id="cad-reserva" class="form">
+			<div id="mydivheader">Clique aqui p/mover</div>
+			<div class="form-titulo">
+				Reservando...
+				<div id="sala-alvo"></div>
+			</div>
+			<form id="form-cad-reserva" name="form-cad-reserva" method="post" action="Javascript: return false">
+				<div>
+					<input type="date" id="data" name="data" value="" maxlength="10" placeholder="Informe a data da reserva" title="Informe a data da reserva"></div>
+				<div>
+					Horário: <input type="time" id="horario" name="horario" value="" maxlength="5" placeholder="Informe o horário da reserva" title="Informe o horário da reserva"></div>
+				<div>
+				<div id="resposta"></div>
+				<div>
+					<input type="button" id="cancelar" name="cancelar" value="Cancelar">&nbsp;&nbsp;
+					<input type="submit" id="criar" name="criar" value="Criar"></div>
+			</form>
+		</div>
 <?php
 		include "rodape.php";
 
