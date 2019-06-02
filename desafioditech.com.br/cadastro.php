@@ -19,8 +19,9 @@
 			<input type="password" id="senha" name="senha" value="" maxlength="30" placeholder="Crie sua senha" title="Crie sua senha"></div>
 		<div>
 			<input type="password" id="senha-conf" name="senha-conf" value="" maxlength="30" placeholder="Confirme a senha" title="Confirme a senha"></div>
+		<div id="resposta"></div>
 		<div>
-			<input type="submit" name="cadastrar" value="Cadastrar"></div>
+			<input type="submit" id="cadastrar" name="cadastrar" value="Cadastrar"></div>
 	</form>
 </div>
 

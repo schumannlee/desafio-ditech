@@ -15,8 +15,9 @@
 			<input type="text" id="login" name="login" value="" maxlength="30" placeholder="Informe seu login" title="Informe seu login"></div>
 		<div>
 			<input type="password" id="senha" name="senha" value="" maxlength="30" placeholder="Informe sua senha" title="Informe sua senha"></div>
+		<div id="resposta"></div>
 		<div>
-			<input type="submit" name="logar" value="Acessar"></div>
+			<input type="submit" id="logar" name="logar" value="Acessar"></div>
 		<div class="ajuda">
 			<a href="cadastro.php">Não tenho cadastro</a></div><!--  class="indisponivel" -->
 	</form>

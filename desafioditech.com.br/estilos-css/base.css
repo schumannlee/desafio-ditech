@@ -100,7 +100,7 @@ a:link {
     box-shadow: 5px 5px 10px 0px;
     position: relative;
     width: fit-content;
-    padding: 20px;
+    padding: 20px 50px 20px 50px;
     left: 50%;
 }
 .form-titulo {
@@ -125,6 +125,15 @@ a:link {
 #form-logon .ajuda {
 	margin-top: 20px;
     font-size: 80%;
+}
+#resposta {
+	padding-top: 10px;
+	font-weight: bold;
+	font-size: 85%;
+	color: #FF0000;
+}
+input[type="submit"] {
+	padding: 10px;
 }
 /*MOBILE*/
 @media screen and (max-width: 875px) {

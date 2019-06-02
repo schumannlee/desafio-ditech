@@ -21,8 +21,9 @@
 			<input type="email" id="email" name="email" value="" maxlength="150" placeholder="Informe seu e-mail" title="Informe seu e-mail"></div>
 		<div>
 			<textarea id="mensaagem" name="mensaagem" placeholder="Digite sua mensagem" title="Digite sua mensagem" maxlength="300"></textarea></div>
+		<div id="resposta"></div>
 		<div>
-			<input type="submit" name="contatar" value="Contatar"></div>
+			<input type="submit" id="contatar" name="contatar" value="Contatar"></div>
 	</form>
 </div>
 

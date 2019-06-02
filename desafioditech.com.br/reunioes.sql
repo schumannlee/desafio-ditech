@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 01-Jun-2019 às 23:53
+-- Generation Time: 02-Jun-2019 às 08:02
 -- Versão do servidor: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -79,10 +79,18 @@ CREATE TABLE `usuarios` (
   `email` varchar(100) NOT NULL,
   `login` varchar(30) NOT NULL,
   `senha` varchar(30) NOT NULL,
-  `status_id` int(11) NOT NULL,
+  `permissao` varchar(30) DEFAULT 'membro',
+  `status_id` int(11) NOT NULL DEFAULT '1',
   `criado` datetime NOT NULL,
   `alterado` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `email`, `login`, `senha`, `permissao`, `status_id`, `criado`, `alterado`) VALUES
+(1, 'mail01@mail.com', 'user01', '123456', 'membro', 2, '2019-06-02 01:37:59', '2019-06-02 01:38:02');
 
 --
 -- Indexes for dumped tables
@@ -135,5 +143,5 @@ ALTER TABLE `situacao`
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
