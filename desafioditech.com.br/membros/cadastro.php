@@ -18,8 +18,8 @@
 		<div>
 			<select id="status" name="status">
 				<option value="">-- Status --</option>
-				<option value="Disponível" selected="selected">Disponível</option>
-				<option value="Indisponível">Indisponível</option>
+				<option value="Ativa" selected="selected">Ativa</option>
+				<option value="Inativa">Inativa</option>
 			</select></div>
 		<div id="resposta"></div>
 		<div>

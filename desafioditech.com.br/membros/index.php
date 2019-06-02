@@ -14,27 +14,106 @@
 	else {
 ?>
 
-	<div class="titulo-pagina">
-		Controle de Uso das<br>Salas de Reunião
-	</div>
+		<div class="titulo-pagina">
+			Controle de Uso das<br>Salas de Reunião
+		</div>
 
-	<div class="listagem">
-		<div class="listagem-titulo">
-			Lista de Salas para Reserva
-		</div>
-		<div class="listagem-exibicao">
-			Nenhuma disponível no momento.
-		</div>
-		
-	</div>
+		<div class="listagem">
+			<div class="listagem-titulo">
+				Lista para Reservas
+			</div>
+			<div class="listagem-exibicao">
 
 <?php
-	// Conecta banco de dados
-	require_once("../funcoes-php/conexao.php");
+		// Conecta banco de dados
+		require_once("../funcoes-php/conexao.php");
 
-	$sql = "SELECT * FROM salas";
+		// Monta consulta SQL
+		$sql = "SELECT * FROM salas";
 
-	include "rodape.php";
+		// Executa consulta
+		$consulta = mysqli_query($conexao, $sql);
+
+		// Conta registros retornados
+		$total = mysqli_num_rows($consulta);
+
+		// Verifica se nenhum registro foi encontrado
+		if ($total == 0) {
+			
+			// Exibe resultado na tela
+			echo "Nenhuma sala cadastrada ainda";
+		}
+		else {
+			// Inicializa enumerador dos resultados
+			$enum = 0;
+			// Inicializa Títulos da listagem
+			$listagem = 
+				"
+					<table>
+						<tr>
+							<th>#</th>
+							<th>Nome</th>
+							<th>Capacidade</th>
+							<th>Status</th>
+							<th>Reserva</th>
+						</tr>
+				";
+			// Obtém e insere resultados na listagem
+			while ($resultado = mysqli_fetch_assoc($consulta)) {
+				
+				$enum++;
+				$sala_id = $resultado['id'];
+
+				// Consulta reservas da sala
+				$sql2 = "SELECT * FROM reservas WHERE sala_id = '$sala_id' AND status = 'reservada'";
+				$consulta2 = mysqli_query($conexao, $sql2);
+				$total2 = mysqli_num_rows($consulta2);
+
+				// Verifica se nenhuma reserva há
+				if ($total2 == 0) {
+					
+					$reservas = "Nenhuma para esta sala.";
+				}
+				else {
+					// Limpa variável
+					$reservas = "";
+
+					while ($resultado2 = mysqli_fetch_assoc($consulta2)) {
+						// Lista reservas
+						$reservas .= $resultado2['data']." ".$resultado2['horario']." - ";
+					}
+					// Ajusta resultado
+					$reservas = substr($reservas, 0, strlen($reservas)-3);
+				}
+
+				// Alimenta tuplas da listagem
+				$listagem .= 
+					"
+						<tr id='$sala_id'>
+							<td rowspan='2'>".$enum."</td>
+							<td>".$resultado['nome']."</td>
+							<td>".$resultado['capacidade']."</td>
+							<td>".$resultado['status']."</td>
+							<td rowspan='2'><div class='acao-reserva'><div class='criar'>Criar</div><div class='alterar'>Alterar</div></div></td>
+						</tr>
+						<tr>
+							<td align='right'><b>Reservas >></b></td>
+							<td colspan='2'>$reservas</td>
+						</tr>
+					";
+			}
+			// Finaliza montagem da listagem
+			$listagem .= "</table>";
+			
+			// Exibe resultado na tela
+			echo $listagem;
+		}
+?>
+			</div>
+			
+		</div>
+<?php
+		include "rodape.php";
 
 	}
 ?>

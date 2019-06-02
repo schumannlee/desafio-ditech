@@ -54,6 +54,7 @@ a:link {
 	color: #000;
 	background-color: #C0C0C0;
 }
+
 /*MENUS*/
 #menu-site {
 	width: 20%;
@@ -135,6 +136,41 @@ a:link {
 input[type="submit"] {
 	padding: 10px;
 }
+
+/*TABELAS*/
+.listagem-exibicao {
+	width: 100%;
+}
+.listagem-titulo {
+	font-weight: bold;
+	text-decoration: underline;
+	color: #d83135;
+}
+.acao-reserva {
+	padding-bottom: 10px;
+}
+.acao-reserva .criar, .acao-reserva .alterar {
+	transform: translateX(-50%);
+	background-color: #d83135;
+	position: relative;
+	margin-top: 10px;
+	padding: 5px;
+	color: #FFF;
+	width: 80%;
+	left: 50%;
+}
+table, tr, th, td {
+	border: solid 1px;
+}
+table {
+	width: 90%;
+	font-size: 90%;
+	margin-top: 10px;
+	transform: translateX(-50%);
+	position: relative;
+	left: 50%;
+}
+
 /*MOBILE*/
 @media screen and (max-width: 875px) {
 
