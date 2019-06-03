@@ -1,4 +1,8 @@
 <?php
+	// echo "<pre>";
+	// print_r($_POST);
+	// echo "</pre>";
+	// die;
 // VERIFICA SE POSTAGEM ESTÁ VAZIA
 	if (!$_POST) {
 
@@ -74,6 +78,45 @@
 					'$nome', 
 					'$capacidade', 
 					'$status', 
+					NOW(), 
+					NOW()
+				)
+			";
+			// Executa consulta SQL
+			$consulta = mysqli_query($conexao, $sql);
+
+			// Verifica se houve erro na consulta
+			if (!$consulta) {
+
+				echo "Não cadastrou. Erro: $erro";
+			}
+			else {
+				echo "ok";
+			}
+		}
+	// VERIFICA TABELA ALVO
+		else if ($tabela == "reservas") {
+
+			// Inicializa variáves para inserção
+			$usuario_id = $_POST['logado_id'];
+			$sala_id 	= $_POST['sala_id'];
+			$data 		= $_POST['data'];
+			$horario 	= $_POST['horario'];
+
+			// Monta SQL da inserção
+			$sql = "
+				INSERT INTO reservas(
+					usuario_id,
+					sala_id,
+					data,
+					horario,
+					criado,
+					alterado
+				) VALUES(
+					'$usuario_id',
+					'$sala_id',
+					'$data',
+					'$horario', 
 					NOW(), 
 					NOW()
 				)

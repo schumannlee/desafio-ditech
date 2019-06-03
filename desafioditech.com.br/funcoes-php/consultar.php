@@ -50,6 +50,7 @@
 
 			// Inicializa variáveis de sessão
 			$_SESSION['logado'] 	= $resultado['login'];
+			$_SESSION['logado_id'] 	= $resultado['id'];
 			$_SESSION['status_id'] 	= $resultado['status_id'];
 			$_SESSION['permissao'] 	= $resultado['permissao'];
 

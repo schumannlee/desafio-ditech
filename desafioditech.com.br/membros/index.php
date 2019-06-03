@@ -65,7 +65,14 @@
 				$sala_id = $resultado['id'];
 
 				// Consulta reservas da sala
-				$sql2 = "SELECT * FROM reservas WHERE sala_id = '$sala_id' AND status = 'reservada'";
+				$sql2 = "
+					SELECT data, horario, DATE_ADD(horario, INTERVAL 1 HOUR) AS 'ate' 
+					FROM reservas WHERE sala_id = '$sala_id' 
+					AND data >= DATE_FORMAT(NOW(), '%Y-%m-%d') 
+					AND TIME_FORMAT(horario, '%H:%i') > TIME_FORMAT(NOW(), '%H:%i') 
+					ORDER BY 1,2
+				";
+
 				$consulta2 = mysqli_query($conexao, $sql2);
 				$total2 = mysqli_num_rows($consulta2);
 
@@ -79,11 +86,21 @@
 					$reservas = "";
 
 					while ($resultado2 = mysqli_fetch_assoc($consulta2)) {
+						
+						// Ajusta data p/exibição
+						$data = explode("-", $resultado2['data']);
+						$data = array_reverse($data);
+						$data = implode("/", $data);
+						
+						// Ajusta horário p/exibição
+						$horario = substr($resultado2['horario'], 0, 5);
+						$ate = substr($resultado2['ate'], 0, 5);
+						
 						// Lista reservas
-						$reservas .= $resultado2['data']." ".$resultado2['horario']." - ";
+						$reservas .= "<u>".$data."</u> ".$horario." à ".$ate." <> ";
 					}
 					// Ajusta resultado
-					$reservas = substr($reservas, 0, strlen($reservas)-3);
+					$reservas = substr($reservas, 0, strlen($reservas)-4);
 				}
 
 				// Alimenta tuplas da listagem
@@ -120,6 +137,8 @@
 				<div id="sala-alvo"></div>
 			</div>
 			<form id="form-cad-reserva" name="form-cad-reserva" method="post" action="Javascript: return false">
+				<input type="hidden" id="logado-id" name="logado-id" value="<?php echo $_SESSION['logado_id'] ?>">
+				<input type="hidden" id="sala-id" name="sala-id" value="">
 				<div>
 					<input type="date" id="data" name="data" value="" maxlength="10" placeholder="Informe a data da reserva" title="Informe a data da reserva"></div>
 				<div>
@@ -127,6 +146,7 @@
 				<div>
 				<div id="resposta"></div>
 				<div>
+					<input type="button" id="ok" name="ok" value="Ok">
 					<input type="button" id="cancelar" name="cancelar" value="Cancelar">&nbsp;&nbsp;
 					<input type="submit" id="criar" name="criar" value="Criar"></div>
 			</form>

@@ -220,17 +220,105 @@ $(document).ready(function(){
 	});
 
 // FORMULÁRIO CADASTRO RESERVAS
+	// Monta e exibe formulário criar reserva
 	$(".acao-reserva .criar").click(function(){
 
-		var sala = $(this).parent().parent().parent().find("td:eq(1)").html();
-		$("#sala-alvo").html(sala);
+		var tupla 		= $(this).parent().parent().parent();
+		var sala_nome 	= tupla.find("td:eq(1)").html();
+		var sala_id 	= tupla.attr("id");
+
+		$("#sala-alvo").html(sala_nome);
+		$("#sala-id").val(sala_id);
 
 		$("#cad-reserva").show();
 	});
+	// Cancela intenção de criar reserva
 	$("#cad-reserva #cancelar").click(function(){
 
+		$("#sala-alvo").html("");
+		$("#sala-id").val("");
 		$("#cad-reserva").hide();
 	});
+	// Botão OK p/atualizar lista reservas
+	$("#cad-reserva #ok").click(function(){
+
+		location.href = location;
+	});
+	// Reativa foco no click em data
+	$("#data").click(function(){
+		$(this).select();
+	});
+	// Reativa foco no click em horário
+	$("#horario").click(function(){
+		$(this).select();
+	});
+	// Cadastra reserva
+	$("#form-cad-reserva #criar").click(function(){
+
+		// Limpa resposta do formulário
+		$("#resposta").html("");
+		$("#resposta").css("color","#FF0000");
+		$("input").css("border-color","unset");
+
+		// Captura valores do formulário
+		var tabela		= "reservas";
+		var logado_id	= $("#logado-id");
+		var sala_id 	= $("#sala-id");
+		var data 		= $("#data");
+		var horario 	= $("#horario");
+
+		// Verifica campos não preenchidos
+		if (data.val().trim() == "") {
+
+			data.css("border-color","#FF0000");
+			$("#resposta").html("Informe a data de reserva.");
+		}
+		else if (horario.val().trim() == "") {
+
+			horario.css("border-color","#FF0000");
+			$("#resposta").html("Informe o horário de reserva.");
+		}
+		else if (dataInfoInvertida(data.val().trim()) < dataAtualInvertida()) {
+
+			data.css("border-color","#FF0000");
+			$("#resposta").html("Data inválida. Reveja.");
+		}
+		else if (dataHoraInfo(data.val(),horario.val()) < dataHoraAtual()) {
+
+			horario.css("border-color","#FF0000");
+			$("#resposta").html("Horário inválido. Reveja.");
+		}
+		// Submete valores do formuário
+		else {
+
+			$.post("../funcoes-php/cadastrar.php",
+				{
+				tabela: tabela,
+				logado_id: logado_id.val(),
+				sala_id: sala_id.val(),
+				data: data.val(),
+				horario: horario.val()+":00"
+				},
+				function(retorno, estado){
+				
+					// Verifica e exibe retorno
+					if (retorno != "ok") {
+						
+						$("#resposta").html(retorno);
+					}
+					else {
+						data.attr("readonly",true);
+						data.css("text-align","right");
+						horario.attr("readonly",true);
+						$("#cancelar").remove();
+						$("#criar").remove();
+						$("#ok").show();
+						$("#resposta").css("color","#006600");
+						$("#resposta").html("Reserva criada com sucesso!");
+					}
+			});
+		}
+	});	
 
 // FUNÇÕES
 	function somenteNumeros(e) {
@@ -292,5 +380,38 @@ $(document).ready(function(){
 	    document.onmouseup = null;
 	    document.onmousemove = null;
 	  }
+	}
+
+// Retorna a data informada invertida
+	function dataInfoInvertida(data) {
+
+		return data.replace("-","").replace("-","");
+	}
+
+// Retorna timestamp data-hora informado
+	function dataHoraInfo(data,hora) {
+
+		return Date.parse(data+" "+hora+":00");
+	}
+
+// Retorna timestamp data-hora atual
+	function dataHoraAtual() {
+
+		var agora = new Date();
+		var timestamp = agora.getTime();
+		return timestamp;
+	}
+
+// Retorna a data atual invertida
+	function dataAtualInvertida() {
+
+		var data_atual = new Date();
+		var dia = parseInt(data_atual.getDate());
+		(dia < 10) ? dia = "0"+dia : dia = dia;
+		var mes = parseInt(data_atual.getMonth()) + 1;
+		(mes < 10) ? mes = "0"+mes : mes = mes;
+		var ano = data_atual.getFullYear();
+		data_atual = ano+""+mes+""+dia;
+		return data_atual;
 	}
 });

@@ -166,6 +166,9 @@ input[type="submit"], input[type="button"] {
 	cursor: pointer;
 	color: #FFF;
 }
+#ok {
+	display: none;
+}
 table, tr, th, td {
 	border: solid 1px;
 }
