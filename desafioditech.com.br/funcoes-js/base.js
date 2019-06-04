@@ -321,7 +321,13 @@ $(document).ready(function(){
 					}
 			});
 		}
-	});	
+	});
+
+// EXCLUIR RESERVAS
+	$(".listagem-exibicao .reservas").click(function(){
+
+		alert("Acesso indisponível no momento.");
+	});
 
 // FUNÇÕES
 	function somenteNumeros(e) {
