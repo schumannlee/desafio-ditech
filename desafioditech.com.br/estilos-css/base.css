@@ -141,6 +141,13 @@ input[type="submit"], input[type="button"] {
 .listagem-exibicao {
 	width: 100%;
 }
+.listagem-exibicao .reservas {
+	padding: 5px;
+	margin: 3.5px;
+	color: #d83135;
+	display: inline-block;
+	background-color: #d7dfe8;
+}
 .listagem-titulo {
 	font-weight: bold;
 	text-decoration: underline;

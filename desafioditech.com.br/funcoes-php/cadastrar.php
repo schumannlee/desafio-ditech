@@ -1,4 +1,5 @@
 <?php
+	date_default_timezone_set("America/Sao_Paulo");
 	// echo "<pre>";
 	// print_r($_POST);
 	// echo "</pre>";
@@ -102,6 +103,77 @@
 			$sala_id 	= $_POST['sala_id'];
 			$data 		= $_POST['data'];
 			$horario 	= $_POST['horario'];
+
+			// Monta SQL da verificação de conflito em reservas
+			$sql = "SELECT 
+						data AS 'data_ate', 
+						DATE_ADD(horario, INTERVAL 1 HOUR) AS 'hora_ate' 
+					FROM reservas 
+					WHERE sala_id='$sala_id' 
+					AND data >= DATE_ADD(NOW(), INTERVAL -1 DAY) 
+					ORDER BY 1,2
+			";
+
+			// Executa consulta SQL
+			$consulta = mysqli_query($conexao, $sql);
+
+			// Captura timestamp da data e hora informadas
+			$timestamp_info = strtotime("$data $horario");
+			// echo "$data $horario"; die;
+
+			// Incializa array p/timestamps das reservas
+			$timestamps_cad = array();
+
+			// Obtém datas das reservas
+			while ($datas = mysqli_fetch_assoc($consulta)) {
+
+				// Captura timestamp das datas e horas cadastrados
+				$timestamp_cad = strtotime($datas['data_ate']." ".$datas['hora_ate']);
+
+				// Alimenta array com timestamps
+				array_push($timestamps_cad, $timestamp_cad);
+			}
+
+			// Identificador entre-reservas
+			$entre_reservas = 0;
+
+			if (sizeof($timestamps_cad) > 0) {
+
+				// Percorre timestamps p/comparação ao da data informada
+				foreach ($timestamps_cad as $key => $value) {
+					
+					// Verifica intervalo entre reservas
+					if ($key > 0 && $key < sizeof($timestamps_cad)) {
+
+						$intervalo = (($value-3600) - $timestamps_cad[$key-1]);
+
+						if (
+							($timestamp_info >= $timestamps_cad[$key-1]) && 
+							(($timestamp_info+3600) < ($value-3600)) && 
+							($intervalo >= 3600)
+						) {
+							$entre_reservas = 1;
+							break;
+						}
+					}
+				}
+
+			// echo "<br>".$entre_reservas;
+			// echo "<br>".date("d/m/Y H:i", $timestamp_info);
+			// echo "<br>".date("d/m/Y H:i", ($timestamps_cad[0]));
+			// die;
+
+				// Verifica se há impedimento p/a reserva.
+				if (
+					$entre_reservas == 0 && 
+					($timestamp_info+3600) > ($timestamps_cad[0]-3600) && 
+					$timestamp_info < ($timestamps_cad[sizeof($timestamps_cad)-1])
+				) {
+
+					echo "Período inválido.<br>Reveja a reserva.";
+					exit;
+				}
+			}	
 
 			// Monta SQL da inserção
 			$sql = "

@@ -66,10 +66,11 @@
 
 				// Consulta reservas da sala
 				$sql2 = "
-					SELECT data, horario, DATE_ADD(horario, INTERVAL 1 HOUR) AS 'ate' 
+					SELECT data, horario, 
+						DATE_ADD(horario, INTERVAL 1 HOUR) AS 'ate' 
 					FROM reservas WHERE sala_id = '$sala_id' 
-					AND data >= DATE_FORMAT(NOW(), '%Y-%m-%d') 
-					AND TIME_FORMAT(horario, '%H:%i') > TIME_FORMAT(NOW(), '%H:%i') 
+					AND data >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -1 HOUR), '%Y-%m-%d') 
+					-- AND TIME_FORMAT(horario, '%H:%i') > TIME_FORMAT(DATE_ADD(NOW(), INTERVAL -1 HOUR), '%H:%i') 
 					ORDER BY 1,2
 				";
 
@@ -97,10 +98,10 @@
 						$ate = substr($resultado2['ate'], 0, 5);
 						
 						// Lista reservas
-						$reservas .= "<u>".$data."</u> ".$horario." à ".$ate." <> ";
+						$reservas .= "<div class='reservas'><u>".$data."</u> ".$horario." à ".$ate."</div>";
 					}
 					// Ajusta resultado
-					$reservas = substr($reservas, 0, strlen($reservas)-4);
+					// $reservas = substr($reservas, 0, strlen($reservas)-4);
 				}
 
 				// Alimenta tuplas da listagem

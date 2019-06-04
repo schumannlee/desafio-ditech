@@ -235,8 +235,11 @@ $(document).ready(function(){
 	// Cancela intenção de criar reserva
 	$("#cad-reserva #cancelar").click(function(){
 
-		$("#sala-alvo").html("");
-		$("#sala-id").val("");
+		$("#cad-reserva #sala-alvo").html("");
+		$("#cad-reserva #resposta").html("");
+		$("#cad-reserva #sala-id").val("");
+		$("#cad-reserva #horario").val("");
+		$("#cad-reserva #data").val("");
 		$("#cad-reserva").hide();
 	});
 	// Botão OK p/atualizar lista reservas
