@@ -50,13 +50,6 @@
 			$listagem = 
 				"
 					<table>
-						<tr>
-							<th>#</th>
-							<th>Nome</th>
-							<th>Capacidade</th>
-							<th>Status</th>
-							<th>Reserva</th>
-						</tr>
 				";
 			// Obtém e insere resultados na listagem
 			while ($resultado = mysqli_fetch_assoc($consulta)) {
@@ -107,15 +100,22 @@
 				// Alimenta tuplas da listagem
 				$listagem .= 
 					"
+						<tr>
+							<th>#</th>
+							<th>Nome</th>
+							<th>Capacidade</th>
+							<th>Status</th>
+							<th>Reserva</th>
+						</tr>
 						<tr id='$sala_id'>
 							<td rowspan='2'>".$enum."</td>
 							<td>".$resultado['nome']."</td>
 							<td>".$resultado['capacidade']."</td>
 							<td>".$resultado['status']."</td>
-							<td rowspan='2'><div class='acao-reserva'><div class='criar'>Criar</div><div class='alterar'>Alterar</div></div></td>
+							<td rowspan='2'><div class='acao-reserva'><div class='criar'>Criar</div><!--<div class='alterar'>Alterar</div>--></div></td>
 						</tr>
 						<tr>
-							<td align='right'><b>Reservas >></b></td>
+							<td align='right'><b>Reservas&nbsp;>></b></td>
 							<td colspan='2'>$reservas</td>
 						</tr>
 					";
