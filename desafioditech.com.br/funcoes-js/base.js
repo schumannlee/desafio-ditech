@@ -326,7 +326,36 @@ $(document).ready(function(){
 // EXCLUIR RESERVAS
 	$(".listagem-exibicao .reservas").click(function(){
 
-		alert("Acesso indisponível no momento.");
+		var logado_id 	= $("table").attr("id");
+		var reserva_id 	= $(this).attr("id").split("@")[0];
+		var usuario_id 	= $(this).attr("id").split("@")[1];
+		var reserva_txt	= $(this).text();
+
+		if (logado_id == usuario_id) {
+
+			if (confirm("EXCLUIR\nMinha reserva?\n\n"+reserva_txt)) {
+
+				$.post("../funcoes-php/excluir.php",
+					{
+					tabela: "reservas",
+					reserva_id: reserva_id
+					},
+					function(retorno, estado){
+					
+						// Verifica e exibe retorno
+						if (retorno != "ok") {
+							
+							alert("Falhou. Contate o administrador p/verificação.")
+						}
+						else {
+							alert("Reserva excluída com sucesso!");
+							location.href=location;
+						}
+				});
+			}
+		}
+
+		// alert("Logado_id = "+logado_id+"\nReserva_id = "+reserva_id+"\nUsuario_id = "+usuario_id);
 	});
 
 // FUNÇÕES

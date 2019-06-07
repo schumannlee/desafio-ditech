@@ -150,7 +150,9 @@ input[type="submit"], input[type="button"] {
 	color: #d83135;
 	display: inline-block;
 	background-color: #d7dfe8;
-	cursor: pointer;
+}
+.listagem-exibicao .propria {
+	cursor: pointer;	
 }
 .listagem-titulo {
 	font-weight: bold;
@@ -216,6 +218,11 @@ table {
     left: 0px;
     top: 0px;
     width: calc(100% - 20px);
+}
+.propria {
+	box-shadow: 0px 0px 0px 2px #3e5c81 inset;
+	font-style: italic;
+	font-weight: bold;
 }
 
 /*MOBILE*/

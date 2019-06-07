@@ -4,6 +4,7 @@
 // VERIFICA SE HÁ SESSÃO VÁLIDA INICIADA
 	if (
 		!isset($_SESSION['logado']) || 
+		!isset($_SESSION['logado_id']) || 
 		!isset($_SESSION['status_id']) || 
 		!isset($_SESSION['permissao'])
 	) {
@@ -46,10 +47,12 @@
 		else {
 			// Inicializa enumerador dos resultados
 			$enum = 0;
+			// Inicializa identificador de usuário logado
+			$logado_id = $_SESSION['logado_id'];
 			// Inicializa Títulos da listagem
 			$listagem = 
 				"
-					<table>
+					<table id='$logado_id'>
 				";
 			// Obtém e insere resultados na listagem
 			while ($resultado = mysqli_fetch_assoc($consulta)) {
@@ -59,12 +62,13 @@
 
 				// Consulta reservas da sala
 				$sql2 = "
-					SELECT data, horario, 
+					SELECT id, usuario_id, data, horario, 
 						DATE_ADD(horario, INTERVAL 1 HOUR) AS 'ate' 
 					FROM reservas WHERE sala_id = '$sala_id' 
 					AND data >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -1 HOUR), '%Y-%m-%d') 
+					AND status = 1 
 					-- AND TIME_FORMAT(horario, '%H:%i') > TIME_FORMAT(DATE_ADD(NOW(), INTERVAL -1 HOUR), '%H:%i') 
-					ORDER BY 1,2
+					ORDER BY data, horario
 				";
 
 				$consulta2 = mysqli_query($conexao, $sql2);
@@ -80,6 +84,10 @@
 					$reservas = "";
 
 					while ($resultado2 = mysqli_fetch_assoc($consulta2)) {
+
+						//Alimente variáveis da reserva
+						$res_id = $resultado2['id'];
+						$usr_id = $resultado2['usuario_id'];
 						
 						// Ajusta data p/exibição
 						$data = explode("-", $resultado2['data']);
@@ -91,7 +99,13 @@
 						$ate = substr($resultado2['ate'], 0, 5);
 						
 						// Lista reservas
-						$reservas .= "<div class='reservas'><u>".$data."</u> ".$horario." à ".$ate."</div>";
+						if ($usr_id == $logado_id) {
+
+							$reservas .= "<div id='$res_id@$usr_id' class='reservas propria' title='Minha Reserva'><u>".$data."</u> ".$horario." à ".$ate."</div>";
+						}
+						else {
+							$reservas .= "<div id='$res_id@$usr_id' class='reservas'><u>".$data."</u> ".$horario." à ".$ate."</div>";
+						}
 					}
 					// Ajusta resultado
 					// $reservas = substr($reservas, 0, strlen($reservas)-4);
