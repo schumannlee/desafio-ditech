@@ -183,14 +183,12 @@
 					sala_id,
 					data,
 					horario,
-					criado,
-					alterado
+					criado
 				) VALUES(
 					'$usuario_id',
 					'$sala_id',
 					'$data',
 					'$horario', 
-					NOW(), 
 					NOW()
 				)
 			";
@@ -199,6 +197,8 @@
 
 			// Verifica se houve erro na consulta
 			if (!$consulta) {
+
+				$erro = mysqli_errno($conexao);
 
 				echo "Não cadastrou. Erro: $erro";
 			}
