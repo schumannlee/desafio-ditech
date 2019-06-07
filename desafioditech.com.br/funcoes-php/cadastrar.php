@@ -145,12 +145,13 @@
 					// Verifica intervalo entre reservas
 					if ($key > 0 && $key < sizeof($timestamps_cad)) {
 
+						// (Data-hora início da reserva) - (Data-hora final da reserva anterior)
 						$intervalo = (($value-3600) - $timestamps_cad[$key-1]);
 
 						if (
-							($timestamp_info >= $timestamps_cad[$key-1]) && 
-							(($timestamp_info+3600) < ($value-3600)) && 
-							($intervalo >= 3600)
+							($intervalo >= 3600) && // Há espaço suficiente entre-reservas
+							($timestamp_info >= $timestamps_cad[$key-1]) && // Data-hora informado >= Data-hora da reserva anterior
+							(($timestamp_info+3600) <= ($value-3600)) // Data-hora + 1 hora <= Data-hora inicial da próxima reserva
 						) {
 							$entre_reservas = 1;
 							break;
@@ -158,22 +159,22 @@
 					}
 				}
 
-			// echo "<br>".$entre_reservas;
-			// echo "<br>".date("d/m/Y H:i", $timestamp_info);
-			// echo "<br>".date("d/m/Y H:i", ($timestamps_cad[0]));
+			// echo "<br>Entre-reserva: ".$entre_reservas;
+			// echo "<br>Info-fim: ".date("d/m/Y H:i", ($timestamp_info+3600))." > Cad-Ini-Pri: ".date("d/m/Y H:i", ($timestamps_cad[0]-3600))." | ".intval(($timestamp_info+3600) > ($timestamps_cad[0]-3600));
+			// echo "<br>Info-ini: ".date("d/m/Y H:i", $timestamp_info)." < Cad-Fin-Ult".date("d/m/Y H:i", ($timestamps_cad[sizeof($timestamps_cad)-1]))." | ".intval(($timestamp_info < ($timestamps_cad[sizeof($timestamps_cad)-1])));
 			// die;
 
-				// Verifica se há impedimento p/a reserva.
+				// Não havendo entre-reserva possível verifica se reserva solicitada é anterior ou posterior à primeira e última reserva cadastrada
 				if (
-					$entre_reservas == 0 && 
-					($timestamp_info+3600) > ($timestamps_cad[0]-3600) && 
-					$timestamp_info < ($timestamps_cad[sizeof($timestamps_cad)-1])
+					$entre_reservas == 0 && // Não está entre-reservas
+					($timestamp_info+3600) > ($timestamps_cad[0]-3600) && // Data-hora final informada >= Data-hora inicial da primeira reserva
+					$timestamp_info < ($timestamps_cad[sizeof($timestamps_cad)-1]) // Data-hora início informada <= Data-hora final da última reserva
 				) {
 
 					echo "Período inválido.<br>Reveja a reserva.";
 					exit;
 				}
-			}	
+			}
 
 			// Monta SQL da inserção
 			$sql = "
